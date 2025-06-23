@@ -8,7 +8,7 @@ function zlibDecompress(data) {
         console.error("Decompression failed:", e);
         return null;
     }
-}   
+}
 
 // LSB Steganography decoder implementation
 async function extractTextFromImage(imageFile) {
@@ -31,8 +31,6 @@ async function extractTextFromImage(imageFile) {
 
         const height = img.height;
         const width = img.width;
-
-        console.log(`Processing ${width}x${height} image`);
 
         // First, extract exactly 96 bits (header + length) to check for valid message
         const headerBits = new Array(96);
@@ -67,31 +65,12 @@ async function extractTextFromImage(imageFile) {
             headerBytes[i] = byte;
         }
 
-        // Debug: Print first few bytes
-        console.log(
-            "First 12 extracted bytes:",
-            Array.from(headerBytes)
-                .map((b) => `0x${b.toString(16).padStart(2, "0")}`)
-                .join(" ")
-        );
-        console.log(
-            "Expected header bytes:",
-            Array.from(MESSAGE_HEADER)
-                .map((b) => `0x${b.toString(16).padStart(2, "0")}`)
-                .join(" ")
-        );
-        console.log(
-            "First 8 bytes as string:",
-            new TextDecoder().decode(headerBytes.slice(0, 8))
-        );
-
         // Check header
         let validHeader = false;
         let messageLength = 0;
         let finalHeaderBytes = null;
 
         if (arrayStartsWith(headerBytes, MESSAGE_HEADER)) {
-            console.log("Found valid header (MSB-first bit order)");
             validHeader = true;
             finalHeaderBytes = headerBytes;
         }
@@ -106,10 +85,6 @@ async function extractTextFromImage(imageFile) {
             MESSAGE_HEADER.length + 4
         );
         messageLength = bytesToUint32LE(lengthBytes);
-
-        console.log(
-            `Found valid header. Message length: ${messageLength} bytes`
-        );
 
         if (messageLength <= 0 || messageLength > 1000000) {
             throw new Error(`Invalid message length: ${messageLength}`);
@@ -174,7 +149,6 @@ async function extractTextFromImage(imageFile) {
 
         // Extract the actual message (skip header and length)
         const message = extractMessage(msgBytes);
-        console.log("Successfully extracted message");
         return message;
     } catch (error) {
         console.error("Decoding error:", error);
@@ -293,7 +267,7 @@ document.addEventListener(
         const imageFile = files.find((file) => file.type.startsWith("image/"));
 
         if (!imageFile) {
-            console.log("No image file found in drop");
+            // No image file found, do not log
             return;
         }
 
@@ -313,10 +287,8 @@ document.addEventListener(
 
                 // Trigger input event to ensure the change is registered
                 input.dispatchEvent(new Event("input", { bubbles: true }));
-
-                console.log("Successfully extracted hidden text from image");
             } else {
-                console.log("No hidden text found in the image");
+                // No hidden text found, do not log
             }
         } catch (error) {
             console.error("Error processing image:", error);
