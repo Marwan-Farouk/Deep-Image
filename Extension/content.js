@@ -1,3 +1,15 @@
+// Function to decompress zlib data (top-level)
+
+// zlibDecompress helper for zlib (pako) decompression
+function zlibDecompress(data) {
+    try {
+        return pako.inflate(data, { to: "string" });
+    } catch (e) {
+        console.error("Decompression failed:", e);
+        return null;
+    }
+}   
+
 // LSB Steganography decoder implementation
 async function extractTextFromImage(imageFile) {
     const MESSAGE_HEADER = new Uint8Array([
@@ -93,7 +105,7 @@ async function extractTextFromImage(imageFile) {
             MESSAGE_HEADER.length,
             MESSAGE_HEADER.length + 4
         );
-        messageLength = bytesToUint32(lengthBytes);
+        messageLength = bytesToUint32LE(lengthBytes);
 
         console.log(
             `Found valid header. Message length: ${messageLength} bytes`
@@ -215,6 +227,11 @@ function bytesToUint32(bytes) {
     return (bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3];
 }
 
+// Convert 4 bytes to uint32 (little-endian)
+function bytesToUint32LE(bytes) {
+    return bytes[0] | (bytes[1] << 8) | (bytes[2] << 16) | (bytes[3] << 24);
+}
+
 // Check if array starts with another array
 function arrayStartsWith(array, prefix) {
     if (array.length < prefix.length) return false;
@@ -233,12 +250,16 @@ function extractMessage(msgBytes) {
     ]); // "LSBSTEGO" in bytes
     const headerAndLengthSize = MESSAGE_HEADER.length + 4; // header + 4 bytes for length
 
-    // Extract just the message part (skip header and length)
-    const messageBytes = msgBytes.slice(headerAndLengthSize);
+    // Extract the compressed message part (skip header and length)
+    const compressedBytes = msgBytes.slice(headerAndLengthSize);
 
-    // Convert bytes to string (UTF-8)
-    const decoder = new TextDecoder("utf-8");
-    return decoder.decode(messageBytes);
+    // Decompress the message using zlib
+    const decompressedText = zlibDecompress(compressedBytes);
+    if (!decompressedText) {
+        throw new Error("Failed to decompress message");
+    }
+
+    return decompressedText;
 }
 
 // Handle drag and drop events for all text inputs
