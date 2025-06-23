@@ -3,39 +3,75 @@
     <head>
         <style>
             body {
-                width: 300px;
+                width: 320px;
                 font-family: system-ui, -apple-system, sans-serif;
-                padding: 16px;
-                line-height: 1.5;
+                padding: 0;
+                margin: 0;
+                background: #f7fafd;
+                color: #222;
+            }
+            .container {
+                padding: 20px 18px 12px 18px;
             }
             h1 {
-                font-size: 18px;
-                margin-top: 0;
+                font-size: 20px;
+                margin: 0 0 8px 0;
                 color: #1a73e8;
+                display: flex;
+                align-items: center;
+                gap: 8px;
             }
-            p {
-                margin: 8px 0;
-                color: #444;
+            .icon {
+                width: 28px;
+                height: 28px;
+                vertical-align: middle;
             }
             .info {
                 background: #e8f0fe;
-                padding: 12px;
-                border-radius: 4px;
+                padding: 12px 14px;
+                border-radius: 6px;
                 font-size: 14px;
+                margin-bottom: 16px;
+                border-left: 4px solid #1a73e8;
+            }
+            .steps {
+                margin: 0 0 18px 0;
+                padding: 0 0 0 18px;
+                font-size: 15px;
+            }
+            .footer {
+                text-align: center;
+                font-size: 12px;
+                color: #888;
+                margin-top: 10px;
+                padding-bottom: 6px;
+            }
+            .footer a {
+                color: #1a73e8;
+                text-decoration: none;
             }
         </style>
     </head>
     <body>
-        <h1>Image Text Extractor</h1>
-        <div class="info">
-            <p>To use this extension:</p>
-            <p>1. Find any image with hidden text</p>
-            <p>2. Drag and drop it into any text input on a webpage</p>
-            <p>
-                3. The hidden text will be automatically extracted and inserted
-            </p>
+        <div class="container">
+            <h1>Image Text Extractor</h1>
+            <div class="info">
+                <b>How to use:</b>
+                <ol class="steps">
+                    <li>Find an image with hidden text (LSB steganography)</li>
+                    <li>Drag and drop it into any text input on a webpage</li>
+                    <li>
+                        The hidden text will be extracted and inserted
+                        automatically
+                    </li>
+                </ol>
+            </div>
         </div>
-        <script src="popup.js"></script>
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script> -->
+        <div class="footer">
+            Need help?
+            <a href="https://github.com/your-repo" target="_blank"
+                >Learn more</a
+            >
+        </div>
     </body>
 </html>
