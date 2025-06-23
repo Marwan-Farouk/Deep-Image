@@ -57,20 +57,4 @@ This project provides a complete workflow for hiding and extracting secret messa
 
 ---
 
-## Requirements
 
--   **Python Tool:** Python 3.x, Pillow, numpy, zlib
--   **Extension:** Chrome or Chromium-based browser
-
----
-
-## Credits
-
--   Python LSB Steganography: [Your Name or Repo]
--   Chrome Extension: [Your Name or Repo]
-
----
-
-## License
-
-MIT License
