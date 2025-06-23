@@ -23,15 +23,15 @@ This project provides a complete workflow for hiding and extracting secret messa
 
 -   **Encoding:**
     ```bash
-    python steganography_encode.py encode -i input.png -o output.png -m "Secret message here"
+    python ToolKit.py encode -i input.png -o output.png -m "Secret message here"
     ```
 -   **Decoding:**
     ```bash
-    python steganography_encode.py decode -i output.png
+    python ToolKit.py decode -i output.png
     ```
 -   **GUI:**
     ```bash
-    python steganography_encode.py gui
+    python ToolKit.py gui
     ```
 
 ---
